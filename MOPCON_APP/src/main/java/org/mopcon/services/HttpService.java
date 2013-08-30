@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.Binder;
+import android.os.StrictMode;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
@@ -11,6 +12,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.mopcon.model.News;
 
 import java.io.BufferedReader;
@@ -36,8 +40,15 @@ public class HttpService extends Service {
 
     @Override
     public void onCreate() {
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
         super.onCreate();
         Toast.makeText(this,"Service : onCreate",Toast.LENGTH_LONG).show();
+        String str = connect("http://mopcon.org/2013/api/news.php");
+        System.out.println(str);
+        System.out.println("------------------------");
     }
 
     @Override
@@ -91,7 +102,8 @@ public class HttpService extends Service {
             e.printStackTrace();
         }finally {
             try {
-                stream.close();
+                if (stream != null)
+                    stream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
