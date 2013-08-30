@@ -6,6 +6,18 @@ import android.os.IBinder;
 import android.os.Binder;
 import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.mopcon.model.News;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 /**
  * Created by chuck on 13/8/29.
  */
@@ -50,5 +62,41 @@ public class HttpService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this,"Service : onStartCommand",Toast.LENGTH_LONG).show();
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private String connect(String url){
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet(url);
+        HttpResponse response ;
+        InputStream stream = null;
+        try {
+            response = httpClient.execute(httpGet);
+            if(response == null)
+                return null;
+            HttpEntity entity = response.getEntity();
+            if(entity == null)
+                return null;
+            stream = entity.getContent();
+            String result = null;
+            StringBuffer sb = new StringBuffer();
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(stream));
+            while((result = reader.readLine()) != null){
+               sb.append(result).append("\n");
+            }
+
+            return sb.toString();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                stream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
     }
 }
