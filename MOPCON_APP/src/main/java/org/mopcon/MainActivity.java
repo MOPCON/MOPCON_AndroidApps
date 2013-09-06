@@ -10,10 +10,11 @@ import android.os.IBinder;
 import android.view.Menu;
 
 import org.mopcon.services.HttpService;
+import org.mopcon.services.ServiceImp;
 
 public class MainActivity extends Activity {
 
-    private HttpService mHttpService;
+    private ServiceImp mService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class MainActivity extends Activity {
     public ServiceConnection conn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            ((HttpService.ServiceBinder)service).getService();
+            mService = ((HttpService.ServiceBinder)service).getService();
         }
 
         @Override
