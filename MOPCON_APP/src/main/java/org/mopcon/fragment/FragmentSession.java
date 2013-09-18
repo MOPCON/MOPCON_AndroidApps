@@ -1,6 +1,5 @@
 package org.mopcon.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -21,9 +20,15 @@ import org.mopcon.R;
 /**
  * Created by chuck on 13/9/18.
  */
-public class FragmentSession extends Activity {
+public class FragmentSession extends SherlockFragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    View v = inflater.inflate(R.layout.fragment_session,container,false);
+    return v;
   }
 
   public static class DetailsActivity extends SherlockFragmentActivity {
