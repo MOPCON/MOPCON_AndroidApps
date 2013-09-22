@@ -3,7 +3,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="match_parent">
-    <fragment class="org.mopcon.fragment.FragmentSession$TitlesFragment"
-              android:id="@+id/titles" android:layout_weight="1"
+    <fragment class="org.mopcon.fragment.FragmentSessionActivity$TitlesFragment"
+              android:id="@+id/titles"
               android:layout_width="match_parent" android:layout_height="match_parent" />
 </FrameLayout>

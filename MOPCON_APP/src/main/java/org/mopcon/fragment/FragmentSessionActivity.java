@@ -1,9 +1,13 @@
 package org.mopcon.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ListFragment;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,22 +24,27 @@ import org.mopcon.R;
 /**
  * Created by chuck on 13/9/18.
  */
-public class FragmentSession extends SherlockFragment {
+public class FragmentSessionActivity extends Fragment {
+  @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.fragment_session,container,false);
-    return v;
+    return inflater.inflate(R.layout.fragment_session,container,false);
   }
 
-  public static class DetailsActivity extends SherlockFragmentActivity {
+  @Override
+  public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+  }
+
+  public static class DetailsActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//      setTheme(SampleList.THEME); //Used for theme switching in samples
+      setTheme(R.style.Theme_Sherlock); //Used for theme switching in samples
       super.onCreate(savedInstanceState);
 
       if (getResources().getConfiguration().orientation
@@ -56,7 +65,7 @@ public class FragmentSession extends SherlockFragment {
     }
   }
 
-  public static class TitlesFragment extends SherlockListFragment {
+  public static class TitlesFragment extends ListFragment {
     boolean mDualPane;
     int mCurCheckPosition = 0;
 
@@ -72,8 +81,13 @@ public class FragmentSession extends SherlockFragment {
 
       // Check to see if we have a frame in which to embed the details
       // fragment directly in the containing UI.
+      View test = getActivity().findViewById(R.id.titles);
+      System.out.println(" test != null = " + (test != null));
+
       View detailsFrame = getActivity().findViewById(R.id.details);
       mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
+      System.out.println(" detailsFrame != null = " + (detailsFrame != null));
+      //System.out.println(" detailsFrame.getVisibility() = " + (detailsFrame.getVisibility() == View.VISIBLE));
 
       if (savedInstanceState != null) {
         // Restore last state for checked position.
@@ -106,8 +120,9 @@ public class FragmentSession extends SherlockFragment {
      */
     void showDetails(int index) {
       mCurCheckPosition = index;
-
+      System.out.println("test ----test");
       if (mDualPane) {
+        System.out.println("mDualPane ==== 1");
         // We can display everything in-place with fragments, so update
         // the list to highlight the selected item and show the data.
         getListView().setItemChecked(index, true);
@@ -131,14 +146,14 @@ public class FragmentSession extends SherlockFragment {
         // Otherwise we need to launch a new activity to display
         // the dialog fragment with selected text.
         Intent intent = new Intent();
-        intent.setClass(getActivity(), DetailsActivity.class);
+        intent.setClass(getActivity(), FragmentSessionActivity.DetailsActivity.class);
         intent.putExtra("index", index);
         startActivity(intent);
       }
     }
   }
 
-  public static class DetailsFragment extends SherlockFragment {
+  public static class DetailsFragment extends Fragment {
     /**
      * Create a new instance of DetailsFragment, initialized to
      * show the text at 'index'.
@@ -182,5 +197,4 @@ public class FragmentSession extends SherlockFragment {
       return scroller;
     }
   }
-
 }

@@ -13,7 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import org.mopcon.fragment.FragmentSession;
+import org.mopcon.fragment.FragmentSessionActivity;
 import org.mopcon.services.HttpService;
 import org.mopcon.services.ServiceImp;
 
@@ -36,7 +36,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     tabManager = new TabManager(this,tabHost,R.id.realtabcontent);
     tabManager.addTab(tabHost.newTabSpec("session").setIndicator("Session"),
-        FragmentSession.class,null);
+        FragmentSessionActivity.class,null);
 
     if(savedInstanceState != null)
       tabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
@@ -80,7 +80,6 @@ public class MainActivity extends SherlockFragmentActivity {
       private final Class<?> clss;
       private final Bundle args;
       private Fragment fragment;
-
       TabInfo(String _tag, Class<?> _class, Bundle _args) {
         tag = _tag;
         clss = _class;
