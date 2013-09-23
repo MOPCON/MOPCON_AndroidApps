@@ -22,11 +22,10 @@ public class CheckableFrameLayout extends FrameLayout implements Checkable{
     super(context, attrs);
   }
 
-  @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
   @Override
   public void setChecked(boolean b) {
     checked = b;
-    setBackground(b ? new ColorDrawable(0xff0000a0) : null);
+    setBackgroundColor(b ? 0xff0000a0 : 0x00000000);
   }
 
   @Override
