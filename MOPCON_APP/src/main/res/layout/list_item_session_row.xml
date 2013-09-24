@@ -5,7 +5,8 @@
         android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android">
     <org.mopcon.view.CheckableFrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="86dp">
+            android:layout_height="86dp"
+            android:padding="4dp">
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
@@ -21,7 +22,7 @@
                     android:layout_height="wrap_content"
                     android:text="New Text"
                     android:id="@+id/text" android:layout_gravity="left|bottom" android:textSize="14sp"
-                    android:layout_marginLeft="4dp" android:padding="4dp"/>
+                    android:layout_marginLeft="8dp" android:padding="4dp"/>
         </LinearLayout>
         <ImageView
                 android:layout_width="64dp"

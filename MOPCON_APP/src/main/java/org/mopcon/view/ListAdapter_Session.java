@@ -23,10 +23,6 @@ public class ListAdapter_Session extends ArrayAdapter<Session>{
   private LayoutInflater inflator;
   private Object[] keyObj = null;
 
-  public ListAdapter_Session(Context context, int textViewResourceId) {
-    super(context, textViewResourceId);
-  }
-
   public ListAdapter_Session(Context context,int textViewResourceId,HashMap<Integer, Session> map){
     super(context,textViewResourceId);
     inflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

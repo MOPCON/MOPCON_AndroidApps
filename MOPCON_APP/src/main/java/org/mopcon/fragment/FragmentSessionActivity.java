@@ -20,6 +20,9 @@ import org.mopcon.R;
 import org.mopcon.model.Session;
 import org.mopcon.view.ListAdapter_Session;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 /**
  * Created by chuck on 13/9/18.
  */
@@ -152,6 +155,7 @@ public class FragmentSessionActivity extends Fragment {
       text.setPadding(padding, padding, padding, padding);
       scroller.addView(text);
       Session session = FragmentSessionActivity.listAdapterSession.getSession(getShownIndex());
+      Date date = new Date();
       text.setText(session.name);
       return scroller;
     }
