@@ -49,12 +49,9 @@ public class FragmentSessionActivity extends Fragment {
     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        System.out.println("Test 456");
         showDetails(i);
       }
     });
-
-    System.out.println("Test 123");
 
     String[] titleArray = {"test1","test2","test3"};
 
@@ -104,7 +101,7 @@ public class FragmentSessionActivity extends Fragment {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-      setTheme(R.style.Theme_Sherlock); //Used for theme switching in samples
+      setTheme(R.style.Theme_Sherlock_Light); //Used for theme switching in samples
       super.onCreate(savedInstanceState);
 
       if (getResources().getConfiguration().orientation

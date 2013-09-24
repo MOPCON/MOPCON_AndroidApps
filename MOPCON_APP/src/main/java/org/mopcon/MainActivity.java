@@ -28,14 +28,14 @@ public class MainActivity extends SherlockFragmentActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(R.style.Theme_Sherlock);
+    setTheme(R.style.Theme_Sherlock_Light);
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     tabHost = (TabHost) findViewById(android.R.id.tabhost);
     tabHost.setup();
 
     tabManager = new TabManager(this,tabHost,R.id.realtabcontent);
-    tabManager.addTab(tabHost.newTabSpec("session").setIndicator("Session"),
+    tabManager.addTab(tabHost.newTabSpec("Tab1").setIndicator("S",getResources().getDrawable(R.drawable.tab_ic_even)),
         FragmentSessionActivity.class,null);
 
     if(savedInstanceState != null)
