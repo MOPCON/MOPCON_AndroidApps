@@ -5,7 +5,7 @@
         android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android">
     <org.mopcon.view.CheckableFrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="64dp">
+            android:layout_height="86dp">
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"

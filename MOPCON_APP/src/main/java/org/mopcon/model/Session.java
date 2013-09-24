@@ -9,7 +9,7 @@ public class Session {
         public static final String name = "name";
         public static final String speaker = "speaker";
         public static final String speaker_bio = "speaker_bio";
-        public static final String keywork = "keywork";
+        public static final String keywork = "keyword";
         public static final String loc = "loc";
         public static final String start_time = "start_time";
         public static final String end_time = "end_time";

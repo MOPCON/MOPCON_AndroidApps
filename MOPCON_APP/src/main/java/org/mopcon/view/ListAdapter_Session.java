@@ -21,6 +21,7 @@ public class ListAdapter_Session extends ArrayAdapter<Session>{
 
   private HashMap<Integer,Session> hashMap;
   private LayoutInflater inflator;
+  private Object[] keyObj = null;
 
   public ListAdapter_Session(Context context, int textViewResourceId) {
     super(context, textViewResourceId);
@@ -30,34 +31,14 @@ public class ListAdapter_Session extends ArrayAdapter<Session>{
     super(context,textViewResourceId);
     inflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     hashMap = map;
-  }
-
-  public ListAdapter_Session(Context context, int resource, int textViewResourceId) {
-    super(context, resource, textViewResourceId);
-  }
-
-  public ListAdapter_Session(Context context, int textViewResourceId, Session[] objects) {
-    super(context, textViewResourceId, objects);
-  }
-
-  public ListAdapter_Session(Context context, int resource, int textViewResourceId, Session[] objects) {
-    super(context, resource, textViewResourceId, objects);
-  }
-
-  public ListAdapter_Session(Context context, int textViewResourceId, List<Session> objects) {
-    super(context, textViewResourceId, objects);
-  }
-
-  public ListAdapter_Session(Context context, int resource, int textViewResourceId, List<Session> objects) {
-    super(context, resource, textViewResourceId, objects);
-  }
-
-  private Session getSession(int position){
     Set<Integer> key = hashMap.keySet();
-    Object[] obj = key.toArray();
-    int index = ((Integer)obj[position]).intValue();
+    keyObj = key.toArray();
+  }
+
+  public Session getSession(int position){
+    int index = ((Integer)keyObj[position]).intValue();
     System.out.println("Index = " + index);
-    return hashMap.get(obj[position]);
+    return hashMap.get(keyObj[position]);
   }
 
   @Override
@@ -76,7 +57,8 @@ public class ListAdapter_Session extends ArrayAdapter<Session>{
 
     titleView.setText(session.name);
     textView.setText(session.keyword);
+    imageView.setImageDrawable(getContext().getResources()
+        .getDrawable(R.drawable.ic_01));
     return convertView;
   }
-
 }

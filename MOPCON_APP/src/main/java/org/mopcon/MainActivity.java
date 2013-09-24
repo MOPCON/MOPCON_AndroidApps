@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.view.View;
 import android.widget.TabHost;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.mopcon.fragment.FragmentSessionActivity;
+import org.mopcon.model.Session;
 import org.mopcon.services.HttpService;
 import org.mopcon.services.ServiceImp;
 
@@ -21,28 +24,43 @@ import java.util.HashMap;
 
 public class MainActivity extends SherlockFragmentActivity {
 
+  public static final int TAB_UI_INIT = 0x1;
+
   private ServiceImp mService;
 
   private TabHost tabHost;
   private TabManager tabManager;
+  public static HashMap<Integer,Session> hashMapSession;
+
+  private Handler handler = new Handler(){
+    @Override
+    public void handleMessage(Message msg) {
+      super.handleMessage(msg);
+      switch(msg.what){
+        case TAB_UI_INIT:
+          tabManager.addTab(tabHost.newTabSpec("Tab1").setIndicator("",getResources().getDrawable(R.drawable.tab_ic_even)),
+              FragmentSessionActivity.class,null);
+          break;
+      }
+    }
+  };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(R.style.Theme_Sherlock_Light);
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    Intent intent = new Intent(this,HttpService.class);
+    startService(intent);
+    bindService(intent, conn, Context.BIND_AUTO_CREATE);
+
     tabHost = (TabHost) findViewById(android.R.id.tabhost);
     tabHost.setup();
 
     tabManager = new TabManager(this,tabHost,R.id.realtabcontent);
-    tabManager.addTab(tabHost.newTabSpec("Tab1").setIndicator("",getResources().getDrawable(R.drawable.tab_ic_even)),
-        FragmentSessionActivity.class,null);
-
     if(savedInstanceState != null)
       tabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
-    Intent intent = new Intent(this,HttpService.class);
-    startService(intent);
-    bindService(intent,conn, Context.BIND_AUTO_CREATE);
   }
 
   @Override
@@ -61,6 +79,13 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
       mService = ((HttpService.ServiceBinder)service).getService();
+      mService.updateSession();
+      hashMapSession = mService.getSession();
+      if(hashMapSession != null){
+        Message msg = new Message();
+        msg.what = TAB_UI_INIT;
+        handler.sendMessage(msg);
+      }
     }
 
     @Override
@@ -116,9 +141,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
       TabInfo info = new TabInfo(tag, clss, args);
 
-      // Check to see if we already have a fragment for this tab, probably
-      // from a previously saved state.  If so, deactivate it, because our
-      // initial state is that a tab isn't shown.
       info.fragment = mActivity.getSupportFragmentManager().findFragmentByTag(tag);
       if (info.fragment != null && !info.fragment.isDetached()) {
         FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();

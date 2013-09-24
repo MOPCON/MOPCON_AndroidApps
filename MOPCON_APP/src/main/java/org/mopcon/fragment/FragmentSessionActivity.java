@@ -11,11 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import org.mopcon.MainActivity;
 import org.mopcon.R;
+import org.mopcon.model.Session;
+import org.mopcon.view.ListAdapter_Session;
 
 /**
  * Created by chuck on 13/9/18.
@@ -25,6 +28,7 @@ public class FragmentSessionActivity extends Fragment {
   private static ListView listView;
   private boolean mDualPane;
   private int mCurCheckPosition = 0;
+  private static ListAdapter_Session listAdapterSession = null;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -50,14 +54,14 @@ public class FragmentSessionActivity extends Fragment {
       @Override
       public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         showDetails(i);
+        System.out.println("Item index = " + i);
       }
     });
 
-    String[] titleArray = {"test1","test2","test3"};
+    listAdapterSession = new ListAdapter_Session(getActivity(),
+        R.layout.list_item_session_row, MainActivity.hashMapSession);
 
-    listView.setAdapter(new ArrayAdapter<String>(getActivity(),
-        R.layout.simple_list_item_checkable_1,
-        android.R.id.title, titleArray));
+    listView.setAdapter(listAdapterSession);
 
     View detailsFrame = getActivity().findViewById(R.id.details);
     mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
@@ -147,7 +151,8 @@ public class FragmentSessionActivity extends Fragment {
           4, getActivity().getResources().getDisplayMetrics());
       text.setPadding(padding, padding, padding, padding);
       scroller.addView(text);
-      text.setText("test");
+      Session session = FragmentSessionActivity.listAdapterSession.getSession(getShownIndex());
+      text.setText(session.name);
       return scroller;
     }
   }
