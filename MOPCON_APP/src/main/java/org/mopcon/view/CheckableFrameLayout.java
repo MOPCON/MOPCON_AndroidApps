@@ -8,11 +8,12 @@ import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.widget.Checkable;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 /**
  * Created by chuck on 13/9/18.
  */
-public class CheckableFrameLayout extends FrameLayout implements Checkable{
+public class CheckableFrameLayout extends LinearLayout implements Checkable{
   private boolean checked;
   public CheckableFrameLayout(Context context) {
     super(context);

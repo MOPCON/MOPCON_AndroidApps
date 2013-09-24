@@ -57,7 +57,7 @@ public class FragmentSessionActivity extends Fragment {
 
     listView.setAdapter(new ArrayAdapter<String>(getActivity(),
         R.layout.simple_list_item_checkable_1,
-        android.R.id.text1, titleArray));
+        android.R.id.title, titleArray));
 
     View detailsFrame = getActivity().findViewById(R.id.details);
     mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;

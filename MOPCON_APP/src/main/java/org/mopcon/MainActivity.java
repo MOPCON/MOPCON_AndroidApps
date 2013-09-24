@@ -35,7 +35,7 @@ public class MainActivity extends SherlockFragmentActivity {
     tabHost.setup();
 
     tabManager = new TabManager(this,tabHost,R.id.realtabcontent);
-    tabManager.addTab(tabHost.newTabSpec("Tab1").setIndicator("S",getResources().getDrawable(R.drawable.tab_ic_even)),
+    tabManager.addTab(tabHost.newTabSpec("Tab1").setIndicator("",getResources().getDrawable(R.drawable.tab_ic_even)),
         FragmentSessionActivity.class,null);
 
     if(savedInstanceState != null)
