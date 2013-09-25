@@ -17,9 +17,6 @@ import org.mopcon.R;
 import org.mopcon.model.Session;
 import org.mopcon.view.ListAdapter_Session;
 
-import java.text.DateFormat;
-import java.util.Date;
-
 /**
  * Created by chuck on 13/9/18.
  */
