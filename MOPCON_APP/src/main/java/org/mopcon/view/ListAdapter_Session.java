@@ -11,7 +11,6 @@ import org.mopcon.R;
 import org.mopcon.model.Session;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -52,9 +51,46 @@ public class ListAdapter_Session extends ArrayAdapter<Session>{
     convertView.setTag(session);
 
     titleView.setText(session.name);
-    textView.setText(session.keyword);
-    imageView.setImageDrawable(getContext().getResources()
-        .getDrawable(R.drawable.ic_01));
+    textView.setText(session.loc);
+    char c = session.catalog.charAt(0);
+    switch (c){
+      case '1':
+        imageView.setImageDrawable(getContext().getResources()
+            .getDrawable(R.drawable.ic_01));
+        break;
+      case '2':
+        imageView.setImageDrawable(getContext().getResources()
+            .getDrawable(R.drawable.ic_02));
+        break;
+      case '3':
+        imageView.setImageDrawable(getContext().getResources()
+            .getDrawable(R.drawable.ic_03));
+        break;
+      case '4':
+        imageView.setImageDrawable(getContext().getResources()
+            .getDrawable(R.drawable.ic_04));
+        break;
+      case '5':
+        imageView.setImageDrawable(getContext().getResources()
+            .getDrawable(R.drawable.ic_05));
+        break;
+      case '6':
+        imageView.setImageDrawable(getContext().getResources()
+            .getDrawable(R.drawable.ic_06));
+        break;
+      case '7':
+        imageView.setImageDrawable(getContext().getResources()
+            .getDrawable(R.drawable.ic_07));
+        break;
+      case '8':
+        imageView.setImageDrawable(getContext().getResources()
+            .getDrawable(R.drawable.ic_08));
+        break;
+      case '9':
+        imageView.setImageDrawable(getContext().getResources()
+            .getDrawable(R.drawable.ic_09));
+        break;
+    }
     return convertView;
   }
 }

@@ -10,10 +10,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.*;
 
 import org.mopcon.MainActivity;
 import org.mopcon.R;
@@ -148,16 +145,20 @@ public class FragmentSessionActivity extends Fragment {
         return null;
       }
 
-      ScrollView scroller = new ScrollView(getActivity());
-      TextView text = new TextView(getActivity());
+      View view = inflater.inflate(R.layout.session_content,container,false);
       int padding = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
           4, getActivity().getResources().getDisplayMetrics());
-      text.setPadding(padding, padding, padding, padding);
-      scroller.addView(text);
+      view.setPadding(padding,padding,padding,padding);
       Session session = FragmentSessionActivity.listAdapterSession.getSession(getShownIndex());
-      Date date = new Date();
-      text.setText(session.name);
-      return scroller;
+      TextView name = (TextView) view.findViewById(R.id.session_name);
+      name.setText(session.name);
+      TextView speaker = (TextView) view.findViewById(R.id.session_speaker);
+      speaker.setText(session.speaker);
+      TextView content = (TextView) view.findViewById(R.id.session_content);
+      content.setText(session.content);
+      TextView speaker_bio = (TextView) view.findViewById(R.id.session_speaker_bio);
+      speaker_bio.setText(session.speaker_bio);
+      return view;
     }
   }
 }
