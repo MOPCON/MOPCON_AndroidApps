@@ -23,13 +23,14 @@ import org.mopcon.view.ListAdapter_Session;
  * Created by chuck on 13/9/26.
  */
 public class FragmentSession extends Fragment {
-  private static ListView listView;
+  private ListView listView;
   private static ListAdapter_Session listAdapterSession = null;
   private boolean mDualPane;
   private int mCurCheckPosition = 0;
   private int nowFragmentNum;
 
   public static Fragment create(int position){
+    System.out.println("position = " + position);
     FragmentSession fragmentSession = new FragmentSession();
     Bundle bundle = new Bundle();
     bundle.putInt("num",position);
