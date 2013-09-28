@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * Created by chuck on 13/9/26.
  */
 public class FragmentSession extends Fragment {
-  private ArrayList<Integer> keyList;
+  private static ArrayList<Integer> keyList;
   private ListView listView;
   private static ListAdapter_Session listAdapterSession = null;
   private boolean mDualPane;
@@ -33,15 +33,12 @@ public class FragmentSession extends Fragment {
   private int nowFragmentNum;
 
   public static Fragment create(int position,ArrayList<Integer> keyList){
-    FragmentSession fragmentSession = new FragmentSession(keyList);
+    FragmentSession.keyList = keyList;
+    FragmentSession fragmentSession = new FragmentSession();
     Bundle bundle = new Bundle();
     bundle.putInt("num",position);
     fragmentSession.setArguments(bundle);
     return fragmentSession;
-  }
-
-  public FragmentSession(ArrayList<Integer> keyList){
-    this.keyList = keyList;
   }
 
   @Override
