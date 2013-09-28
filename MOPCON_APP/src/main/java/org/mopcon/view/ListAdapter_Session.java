@@ -7,9 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.mopcon.MainActivity;
 import org.mopcon.R;
 import org.mopcon.model.Session;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -19,35 +22,42 @@ import java.util.Set;
 public class ListAdapter_Session extends ArrayAdapter<Session>{
 
   private HashMap<Integer,Session> hashMap;
+  private ArrayList<Integer> keyList;
+  private ArrayList<View> viewList;
   private LayoutInflater inflator;
-  private Object[] keyObj = null;
 
-  public ListAdapter_Session(Context context,int textViewResourceId,HashMap<Integer, Session> map){
+  public ListAdapter_Session(Context context,int textViewResourceId,ArrayList<Integer> keyList){
     super(context,textViewResourceId);
     inflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    hashMap = map;
-    Set<Integer> key = hashMap.keySet();
-    keyObj = key.toArray();
-  }
-
-  public Session getSession(int position){
-    int index = ((Integer)keyObj[position]).intValue();
-    System.out.println("Index = " + index);
-    return hashMap.get(keyObj[position]);
+    this.keyList = keyList;
+    hashMap = MainActivity.hashMapSession;
+    viewList = new ArrayList<View>();
+    for(int i = 0 ; i < keyList.size();i++){
+      viewList.add(getView(hashMap.get(keyList.get(i))));
+    }
   }
 
   @Override
   public int getCount() {
-    return hashMap.size();
+    return viewList.size();
   }
 
-  @Override
-  public View getView(int position, View convertView, ViewGroup parent) {
-    convertView = inflator.inflate(R.layout.list_item_session_row, null);
+  private View getClassTag(int index){
+    TextView textTag = new TextView(this.getContext());
+    textTag.setText("Test");
+    return textTag;
+  }
+
+  public Session getSession(int position){
+    View view = viewList.get(position);
+    return (Session)view.getTag();
+  }
+
+  private View getView(Session session){
+    View convertView = inflator.inflate(R.layout.list_item_session_row, null);
     TextView titleView = (TextView) convertView.findViewById(R.id.title);
     TextView textView = (TextView) convertView.findViewById(R.id.text);
     ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
-    Session session = getSession(position);
     convertView.setTag(session);
 
     titleView.setText(session.name);
@@ -91,6 +101,12 @@ public class ListAdapter_Session extends ArrayAdapter<Session>{
             .getDrawable(R.drawable.ic_09));
         break;
     }
+    return convertView;
+  }
+
+  @Override
+  public View getView(int position, View convertView, ViewGroup parent) {
+    convertView = viewList.get(position);
     return convertView;
   }
 }

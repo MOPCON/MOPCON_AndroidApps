@@ -19,23 +19,29 @@ import org.mopcon.R;
 import org.mopcon.model.Session;
 import org.mopcon.view.ListAdapter_Session;
 
+import java.util.ArrayList;
+
 /**
  * Created by chuck on 13/9/26.
  */
 public class FragmentSession extends Fragment {
+  private ArrayList<Integer> keyList;
   private ListView listView;
   private static ListAdapter_Session listAdapterSession = null;
   private boolean mDualPane;
   private int mCurCheckPosition = 0;
   private int nowFragmentNum;
 
-  public static Fragment create(int position){
-    System.out.println("position = " + position);
-    FragmentSession fragmentSession = new FragmentSession();
+  public static Fragment create(int position,ArrayList<Integer> keyList){
+    FragmentSession fragmentSession = new FragmentSession(keyList);
     Bundle bundle = new Bundle();
     bundle.putInt("num",position);
     fragmentSession.setArguments(bundle);
     return fragmentSession;
+  }
+
+  public FragmentSession(ArrayList<Integer> keyList){
+    this.keyList = keyList;
   }
 
   @Override
@@ -68,7 +74,7 @@ public class FragmentSession extends Fragment {
     });
 
     listAdapterSession = new ListAdapter_Session(getActivity(),
-        R.layout.list_item_session_row, MainActivity.hashMapSession);
+        R.layout.list_item_session_row, keyList);
 
     listView.setAdapter(listAdapterSession);
 

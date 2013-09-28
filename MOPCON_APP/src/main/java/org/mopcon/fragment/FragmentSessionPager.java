@@ -8,11 +8,17 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.mopcon.MainActivity;
 import org.mopcon.R;
+import org.mopcon.model.Session;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by chuck on 13/9/18.
@@ -24,8 +30,8 @@ public class FragmentSessionPager extends Fragment{
   private ImageButton previousButton,nextButton;
   private TextView textView;
 
-  private static final String[] sessionData = {"2013/10/26","2013/10/27"};
-
+  private static final String[] sessionData = {"2013年10月26日 星期六","2013年10月27日 星期日"};
+  private ArrayList<Integer>[] keyList ;
   private static final int fragmentPagerNum = 2;
 
   @Override
@@ -36,6 +42,21 @@ public class FragmentSessionPager extends Fragment{
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    keyList = new ArrayList[2];
+    for(int j = 0;j < keyList.length;j++)
+      keyList[j] = new ArrayList<Integer>();
+    HashMap<Integer,Session> hashMap = MainActivity.hashMapSession;
+    Set<Integer> index = hashMap.keySet();
+    Object[] obj = index.toArray();
+    for (int i = 0;i < obj.length;i++){
+      Integer integer = (Integer)obj[i];
+      int tmp = integer.intValue();
+      if((tmp / 100) == 1){
+        keyList[0].add((Integer)obj[i]);
+      }else if((tmp / 100) == 2){
+        keyList[1].add((Integer)obj[i]);
+      }
+    }
   }
 
   private SessionFragmentPagerAdapter sessionFragmentPagerAdapter;
@@ -89,7 +110,8 @@ public class FragmentSessionPager extends Fragment{
 
     @Override
     public Fragment getItem(int i) {
-      return FragmentSession.create(i);
+      System.out.println("getItem = " + i);
+      return FragmentSession.create(i,keyList[i]);
     }
 
     @Override
