@@ -1,6 +1,9 @@
 package org.mopcon.view;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +28,24 @@ public class ListAdapter_Session extends ArrayAdapter<Session>{
   private ArrayList<Integer> keyList;
   private ArrayList<View> viewList;
   private LayoutInflater inflator;
+  private String[][] section = {
+      {"上午9:05~9:25",
+          "上午9:25~10:15",
+          "上午10:30~11:10",
+          "上午11:20~12:00",
+          "下午13:10~14:00",
+          "下午14:10~14:50",
+          "下午15:10~15:50",
+          "下午16:00~16:40"},
+      {"上午9:00~9:50",
+          "上午10:00~10:40",
+          "上午10:50~11:30",
+          "上午11:30~12:20",
+          "下午13:30~14:20",
+          "下午14:30~15:10",
+          "下午15:30~16:10",
+          "下午16:20~17:30"}
+  };
 
   public ListAdapter_Session(Context context,int textViewResourceId,ArrayList<Integer> keyList){
     super(context,textViewResourceId);
@@ -32,8 +53,15 @@ public class ListAdapter_Session extends ArrayAdapter<Session>{
     this.keyList = keyList;
     hashMap = MainActivity.hashMapSession;
     viewList = new ArrayList<View>();
-    for(int i = 0 ; i < keyList.size();i++){
-      viewList.add(getView(hashMap.get(keyList.get(i))));
+    int day = keyList.get(0) / 100;
+    for(int j = 0;j < section[day - 1].length;j++){
+      viewList.add(getClassTag(section[day - 1][j]));
+      for(int k = 0;k < keyList.size() ;k++){
+        int index = keyList.get(k).intValue() % 100;
+        if(j == (index / 10)){
+          viewList.add(getView(hashMap.get(keyList.get(k))));
+        }
+      }
     }
   }
 
@@ -42,9 +70,14 @@ public class ListAdapter_Session extends ArrayAdapter<Session>{
     return viewList.size();
   }
 
-  private View getClassTag(int index){
+  private View getClassTag(String str){
     TextView textTag = new TextView(this.getContext());
-    textTag.setText("Test");
+    textTag.setText(str);
+    textTag.setClickable(true);
+    textTag.setBackgroundColor(0xff858c94);
+    textTag.setVisibility(View.VISIBLE);
+    textTag.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+    textTag.setTextSize(TypedValue.COMPLEX_UNIT_SP,22);
     return textTag;
   }
 
@@ -109,4 +142,5 @@ public class ListAdapter_Session extends ArrayAdapter<Session>{
     convertView = viewList.get(position);
     return convertView;
   }
+
 }

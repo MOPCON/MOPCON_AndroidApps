@@ -30,7 +30,7 @@ public class FragmentSessionPager extends Fragment{
   private TextView textView;
 
   private static final String[] sessionData = {"2013年10月26日 星期六","2013年10月27日 星期日"};
-  private ArrayList<Integer>[] keyList ;
+  private static ArrayList<Integer>[] keyList ;
   private static final int fragmentPagerNum = 2;
 
   @Override
@@ -97,20 +97,19 @@ public class FragmentSessionPager extends Fragment{
     });
 
     sessionFragmentPagerAdapter = new SessionFragmentPagerAdapter(
-        getChildFragmentManager());
+        FragmentSessionPager.this.getChildFragmentManager());
     viewPager.setAdapter(sessionFragmentPagerAdapter);
     return view;
   }
 
-  public class SessionFragmentPagerAdapter extends FragmentPagerAdapter{
+  public static class SessionFragmentPagerAdapter extends FragmentPagerAdapter{
     public SessionFragmentPagerAdapter(FragmentManager fm) {
       super(fm);
     }
 
     @Override
     public Fragment getItem(int i) {
-      System.out.println("getItem = " + i);
-      return FragmentSession.create(i,keyList[i]);
+      return FragmentSession.create(i,FragmentSessionPager.keyList[i]);
     }
 
     @Override

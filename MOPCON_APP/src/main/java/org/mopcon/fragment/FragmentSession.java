@@ -29,7 +29,7 @@ public class FragmentSession extends Fragment {
   private ListView listView;
   private static ListAdapter_Session listAdapterSession = null;
   private boolean mDualPane;
-  private int mCurCheckPosition = 0;
+  private int mCurCheckPosition = 1;
   private int nowFragmentNum;
 
   public static Fragment create(int position,ArrayList<Integer> keyList){
