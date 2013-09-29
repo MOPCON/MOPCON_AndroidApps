@@ -1,5 +1,6 @@
 package org.mopcon;
 
+import android.app.Activity;
 import android.content.ComponentName;
 
 import android.content.Context;
@@ -9,13 +10,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.TabHost;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import org.mopcon.fragment.FragmentSessionActivity;
+
+import org.mopcon.fragment.FragmentSessionPager;
 import org.mopcon.model.Session;
 import org.mopcon.services.HttpService;
 import org.mopcon.services.ServiceImp;
@@ -39,7 +43,7 @@ public class MainActivity extends SherlockFragmentActivity {
       switch(msg.what){
         case TAB_UI_INIT:
           tabManager.addTab(tabHost.newTabSpec("Tab1").setIndicator("",getResources().getDrawable(R.drawable.tab_ic_even)),
-              FragmentSessionActivity.class,null);
+              FragmentSessionPager.class,null);
           break;
       }
     }

@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.mopcon.MainActivity;
@@ -20,22 +19,32 @@ import org.mopcon.R;
 import org.mopcon.model.Session;
 import org.mopcon.view.ListAdapter_Session;
 
-import java.text.DateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 
 /**
- * Created by chuck on 13/9/18.
+ * Created by chuck on 13/9/26.
  */
-public class FragmentSessionActivity extends Fragment {
-
-  private static ListView listView;
-  private boolean mDualPane;
-  private int mCurCheckPosition = 0;
+public class FragmentSession extends Fragment {
+  private static ArrayList<Integer> keyList;
+  private ListView listView;
   private static ListAdapter_Session listAdapterSession = null;
+  private boolean mDualPane;
+  private int mCurCheckPosition = 1;
+  private int nowFragmentNum;
+
+  public static Fragment newInstance(int position,ArrayList<Integer> keyList){
+    FragmentSession.keyList = keyList;
+    FragmentSession fragmentSession = new FragmentSession();
+    Bundle bundle = new Bundle();
+    bundle.putInt("num",position);
+    fragmentSession.setArguments(bundle);
+    return fragmentSession;
+  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    nowFragmentNum = getArguments() != null ? getArguments().getInt("num"):1;
   }
 
   @Override
@@ -62,7 +71,7 @@ public class FragmentSessionActivity extends Fragment {
     });
 
     listAdapterSession = new ListAdapter_Session(getActivity(),
-        R.layout.list_item_session_row, MainActivity.hashMapSession);
+        R.layout.list_item_session_row, keyList);
 
     listView.setAdapter(listAdapterSession);
 
@@ -97,12 +106,11 @@ public class FragmentSessionActivity extends Fragment {
       }
     } else {
       Intent intent = new Intent();
-      intent.setClass(getActivity(), FragmentSessionActivity.DetailsActivity.class);
+      intent.setClass(getActivity(), DetailsActivity.class);
       intent.putExtra("index", index);
       startActivity(intent);
     }
   }
-
 
   public static class DetailsActivity extends FragmentActivity {
 
@@ -148,16 +156,21 @@ public class FragmentSessionActivity extends Fragment {
         return null;
       }
 
-      ScrollView scroller = new ScrollView(getActivity());
-      TextView text = new TextView(getActivity());
+      View view = inflater.inflate(R.layout.session_content,container,false);
       int padding = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
           4, getActivity().getResources().getDisplayMetrics());
-      text.setPadding(padding, padding, padding, padding);
-      scroller.addView(text);
-      Session session = FragmentSessionActivity.listAdapterSession.getSession(getShownIndex());
-      Date date = new Date();
-      text.setText(session.name);
-      return scroller;
+      view.setPadding(padding,padding,padding,padding);
+      Session session = listAdapterSession.getSession(getShownIndex());
+      TextView name = (TextView) view.findViewById(R.id.session_name);
+      name.setText(session.name);
+      TextView speaker = (TextView) view.findViewById(R.id.session_speaker);
+      speaker.setText(session.speaker);
+      TextView content = (TextView) view.findViewById(R.id.session_content);
+      content.setText(session.content);
+      TextView speaker_bio = (TextView) view.findViewById(R.id.session_speaker_bio);
+      speaker_bio.setText(session.speaker_bio);
+      return view;
     }
   }
 }
+

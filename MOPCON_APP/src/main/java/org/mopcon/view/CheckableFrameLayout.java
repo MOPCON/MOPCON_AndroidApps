@@ -1,13 +1,8 @@
 package org.mopcon.view;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
-import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.widget.Checkable;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 /**
@@ -26,7 +21,7 @@ public class CheckableFrameLayout extends LinearLayout implements Checkable{
   @Override
   public void setChecked(boolean b) {
     checked = b;
-    setBackgroundColor(b ? 0xff0000a0 : 0x00000000);
+    setBackgroundColor(b ? 0xffffffee : 0x00000000);
   }
 
   @Override
