@@ -1,5 +1,6 @@
 package org.mopcon;
 
+import android.app.Activity;
 import android.content.ComponentName;
 
 import android.content.Context;
@@ -9,11 +10,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.TabHost;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import org.mopcon.fragment.FragmentSessionPager;

@@ -34,11 +34,6 @@ public class FragmentSessionPager extends Fragment{
   private static final int fragmentPagerNum = 2;
 
   @Override
-  public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-  }
-
-  @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     keyList = new ArrayList[2];
@@ -58,12 +53,13 @@ public class FragmentSessionPager extends Fragment{
     }
   }
 
-  private SessionFragmentPagerAdapter sessionFragmentPagerAdapter;
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.viewpager_session,container,false);
     viewPager = (ViewPager) view.findViewById(R.id.pager);
+    SessionFragmentPagerAdapter sessionFragmentPagerAdapter = new SessionFragmentPagerAdapter(
+        getChildFragmentManager());
+    viewPager.setAdapter(sessionFragmentPagerAdapter);
     textView = (TextView) view.findViewById(R.id.session_data);
     textView.setText(sessionData[viewPager.getCurrentItem()]);
     previousButton = (ImageButton) view.findViewById(R.id.previousButton);
@@ -95,10 +91,6 @@ public class FragmentSessionPager extends Fragment{
       public void onPageScrollStateChanged(int i) {
       }
     });
-
-    sessionFragmentPagerAdapter = new SessionFragmentPagerAdapter(
-        FragmentSessionPager.this.getChildFragmentManager());
-    viewPager.setAdapter(sessionFragmentPagerAdapter);
     return view;
   }
 
@@ -109,7 +101,12 @@ public class FragmentSessionPager extends Fragment{
 
     @Override
     public Fragment getItem(int i) {
-      return FragmentSession.create(i,FragmentSessionPager.keyList[i]);
+      return FragmentSession.newInstance(i,FragmentSessionPager.keyList[i]);
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+      return super.instantiateItem(container, position);
     }
 
     @Override

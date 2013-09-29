@@ -32,7 +32,7 @@ public class FragmentSession extends Fragment {
   private int mCurCheckPosition = 1;
   private int nowFragmentNum;
 
-  public static Fragment create(int position,ArrayList<Integer> keyList){
+  public static Fragment newInstance(int position,ArrayList<Integer> keyList){
     FragmentSession.keyList = keyList;
     FragmentSession fragmentSession = new FragmentSession();
     Bundle bundle = new Bundle();
