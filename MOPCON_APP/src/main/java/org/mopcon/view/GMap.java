@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.Toast;
 
-import android.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -33,11 +33,9 @@ public class GMap extends Activity implements LocationListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.GMap)).getMap();
-        Marker nkut = map.addMarker(new MarkerOptions().position(STU).title("樹德科技大學").snippet("Mopcon"));
 
-        // Move the camera instantly to NKUT with a zoom of 16.
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(STU, 16));
+        setTargetLocation(STU,"樹德科技大學","Mopcon APP!!");
+
 
 
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)||locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
@@ -88,19 +86,32 @@ public class GMap extends Activity implements LocationListener
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
+    public void onStatusChanged(String provider, int status, Bundle extras)
+    {
 
     }
 
     @Override
-    public void onProviderEnabled(String provider) {
+    public void onProviderEnabled(String provider)
+    {
 
     }
 
     @Override
-    public void onProviderDisabled(String provider) {
+    public void onProviderDisabled(String provider)
+    {
 
     }
+
+    public void setTargetLocation(LatLng target, String title, String context)
+    {
+        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.GMap)).getMap();
+        Marker nkut = map.addMarker(new MarkerOptions().position(target).title(title).snippet(context));
+
+        // Move the camera instantly to Target  with a zoom of 16.
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(target, 12));
+    }
+
 
     @Override
     protected void onResume()
@@ -108,7 +119,7 @@ public class GMap extends Activity implements LocationListener
         super.onResume();
         if (getService)
         {
-            lms.requestLocationUpdates(bestProvider, 1000, 1, this);
+            lms.requestLocationUpdates(bestProvider, 10000, 1, this);
         }
     }
 
