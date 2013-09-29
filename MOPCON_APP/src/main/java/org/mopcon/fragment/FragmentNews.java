@@ -14,8 +14,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.mopcon.MainActivity;
 import org.mopcon.R;
+import org.mopcon.model.News;
 import org.mopcon.model.Session;
+import org.mopcon.view.ListAdapter_News;
 import org.mopcon.view.ListAdapter_Session;
 
 import java.util.ArrayList;
@@ -23,27 +26,15 @@ import java.util.ArrayList;
 /**
  * Created by chuck on 13/9/26.
  */
-public class FragmentSession extends Fragment {
-  private static ArrayList<Integer> keyList;
+public class FragmentNews extends Fragment {
+  private static ListAdapter_News listAdapterNews;
   private ListView listView;
-  private static ListAdapter_Session listAdapterSession = null;
   private boolean mDualPane;
-  private int mCurCheckPosition = 1;
-  private int nowFragmentNum;
-
-  public static Fragment newInstance(int position,ArrayList<Integer> keyList){
-    FragmentSession.keyList = keyList;
-    FragmentSession fragmentSession = new FragmentSession();
-    Bundle bundle = new Bundle();
-    bundle.putInt("num",position);
-    fragmentSession.setArguments(bundle);
-    return fragmentSession;
-  }
+  private int mCurCheckPosition = 0;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    nowFragmentNum = getArguments() != null ? getArguments().getInt("num"):1;
   }
 
   @Override
@@ -54,7 +45,7 @@ public class FragmentSession extends Fragment {
   @Override
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putInt("curChoice", mCurCheckPosition);
+    outState.putInt("news_curChoice", mCurCheckPosition);
   }
 
   @Override
@@ -65,24 +56,22 @@ public class FragmentSession extends Fragment {
       @Override
       public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         showDetails(i);
-        System.out.println("Item index = " + i);
       }
     });
 
-    listAdapterSession = new ListAdapter_Session(getActivity(),
-        R.layout.list_item_session_row, keyList);
+    listAdapterNews = new ListAdapter_News(getActivity(),
+        R.layout.list_item_news_row, MainActivity.hashMapNews);
 
-    listView.setAdapter(listAdapterSession);
+    listView.setAdapter(listAdapterNews);
 
     View detailsFrame = getActivity().findViewById(R.id.details);
     mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
     if (savedInstanceState != null) {
-      mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
+      mCurCheckPosition = savedInstanceState.getInt("news_curChoice", 0);
     }
 
     if (mDualPane) {
-      System.out.println("mDualPane = true");
       listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
       showDetails(mCurCheckPosition);
     }
@@ -106,7 +95,7 @@ public class FragmentSession extends Fragment {
     } else {
       Intent intent = new Intent();
       intent.setClass(getActivity(), DetailsActivity.class);
-      intent.putExtra("index", index);
+      intent.putExtra("news_index", index);
       startActivity(intent);
     }
   }
@@ -138,14 +127,14 @@ public class FragmentSession extends Fragment {
       DetailsFragment f = new DetailsFragment();
 
       Bundle args = new Bundle();
-      args.putInt("index", index);
+      args.putInt("news_index", index);
       f.setArguments(args);
 
       return f;
     }
 
     public int getShownIndex() {
-      return getArguments().getInt("index", 0);
+      return getArguments().getInt("news_index", 0);
     }
 
     @Override
@@ -155,19 +144,17 @@ public class FragmentSession extends Fragment {
         return null;
       }
 
-      View view = inflater.inflate(R.layout.session_content,container,false);
+      View view = inflater.inflate(R.layout.news_content,container,false);
       int padding = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
           4, getActivity().getResources().getDisplayMetrics());
       view.setPadding(padding,padding,padding,padding);
-      Session session = listAdapterSession.getSession(getShownIndex());
-      TextView name = (TextView) view.findViewById(R.id.session_name);
-      name.setText(session.name);
-      TextView speaker = (TextView) view.findViewById(R.id.session_speaker);
-      speaker.setText(session.speaker);
-      TextView content = (TextView) view.findViewById(R.id.session_content);
-      content.setText(session.content);
-      TextView speaker_bio = (TextView) view.findViewById(R.id.session_speaker_bio);
-      speaker_bio.setText(session.speaker_bio);
+      News news = listAdapterNews.getNews(getShownIndex());
+      TextView title = (TextView) view.findViewById(R.id.news_title);
+      title.setText(news.title);
+      TextView content = (TextView) view.findViewById(R.id.news_content);
+      content.setText(news.content);
+      TextView publisher = (TextView) view.findViewById(R.id.news_publisher);
+      publisher.setText(news.publisher);
       return view;
     }
   }

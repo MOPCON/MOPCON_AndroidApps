@@ -1,6 +1,5 @@
 package org.mopcon;
 
-import android.app.Activity;
 import android.content.ComponentName;
 
 import android.content.Context;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.TabHost;
 import android.support.v4.app.Fragment;
@@ -19,7 +17,9 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
+import org.mopcon.fragment.FragmentNews;
 import org.mopcon.fragment.FragmentSessionPager;
+import org.mopcon.model.News;
 import org.mopcon.model.Session;
 import org.mopcon.services.HttpService;
 import org.mopcon.services.ServiceImp;
@@ -35,6 +35,7 @@ public class MainActivity extends SherlockFragmentActivity {
   private TabHost tabHost;
   private TabManager tabManager;
   public static HashMap<Integer,Session> hashMapSession;
+  public static HashMap<Integer,News> hashMapNews;
 
   private Handler handler = new Handler(){
     @Override
@@ -44,6 +45,8 @@ public class MainActivity extends SherlockFragmentActivity {
         case TAB_UI_INIT:
           tabManager.addTab(tabHost.newTabSpec("Tab1").setIndicator("",getResources().getDrawable(R.drawable.tab_ic_even)),
               FragmentSessionPager.class,null);
+          tabManager.addTab(tabHost.newTabSpec("Tab2").setIndicator("",getResources().getDrawable(R.drawable.tab_ic_news)),
+              FragmentNews.class,null);
           break;
       }
     }
@@ -84,7 +87,9 @@ public class MainActivity extends SherlockFragmentActivity {
     public void onServiceConnected(ComponentName name, IBinder service) {
       mService = ((HttpService.ServiceBinder)service).getService();
       mService.updateSession();
+      mService.updateNews();
       hashMapSession = mService.getSession();
+      hashMapNews = mService.getNews();
       if(hashMapSession != null){
         Message msg = new Message();
         msg.what = TAB_UI_INIT;

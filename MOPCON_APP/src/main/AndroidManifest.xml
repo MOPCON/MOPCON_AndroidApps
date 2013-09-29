@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".fragment.FragmentSession$DetailsActivity" />
+        <activity android:name=".fragment.FragmentNews$DetailsActivity" />
         <service android:name=".services.HttpService" />
     </application>
 

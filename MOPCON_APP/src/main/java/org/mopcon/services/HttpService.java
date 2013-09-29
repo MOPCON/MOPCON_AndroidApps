@@ -72,8 +72,9 @@ public class HttpService extends Service implements ServiceImp{
     JSONObject jsonObject;
     String str = readJSONFile(NEWS + JSON);
     try {
+      System.out.println("News JSON = " + str);
       jsonObject = new JSONObject(str);
-      newsLastUpdate = jsonObject.getLong("last_update");
+      newsLastUpdate = jsonObject.getLong("lastu_pdate");
       jsonArray = jsonObject.getJSONArray("news");
       for(int i = 0 ;i < jsonArray.length();i++){
         JSONObject jObject = jsonArray.getJSONObject(i);
@@ -94,7 +95,6 @@ public class HttpService extends Service implements ServiceImp{
 
   @Override
   public HashMap<Integer, Session> getSession() {
-    System.out.println("-Session-------------------");
     HashMap<Integer, Session> map = new HashMap<Integer, Session>();
     JSONObject jsonObject;
     JSONArray jsonArray;
