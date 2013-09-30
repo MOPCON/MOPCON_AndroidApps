@@ -107,8 +107,9 @@ public class FragmentNews extends Fragment {
       setTheme(R.style.Theme_Sherlock_Light); //Used for theme switching in samples
       super.onCreate(savedInstanceState);
 
-      if (getResources().getConfiguration().orientation
-          == Configuration.ORIENTATION_LANDSCAPE) {
+      if((getResources().getConfiguration().screenLayout &
+          Configuration.SCREENLAYOUT_SIZE_MASK) >=
+          Configuration.SCREENLAYOUT_SIZE_LARGE){
         finish();
         return;
       }
