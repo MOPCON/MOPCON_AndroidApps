@@ -23,6 +23,7 @@ import org.mopcon.model.News;
 import org.mopcon.model.Session;
 import org.mopcon.services.HttpService;
 import org.mopcon.services.ServiceImp;
+import org.mopcon.fragment.FragmentGMap;
 
 import java.util.HashMap;
 
@@ -47,6 +48,8 @@ public class MainActivity extends SherlockFragmentActivity {
               FragmentSessionPager.class,null);
           tabManager.addTab(tabHost.newTabSpec("Tab2").setIndicator("",getResources().getDrawable(R.drawable.tab_ic_news)),
               FragmentNews.class,null);
+          tabManager.addTab(tabHost.newTabSpec("Tab3").setIndicator("",getResources().getDrawable(R.drawable.tab_ic_maps)),
+              FragmentGMap.class,null);
           break;
       }
     }

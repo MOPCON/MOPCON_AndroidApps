@@ -37,7 +37,6 @@
         </activity>
         <activity android:name=".fragment.FragmentSession$DetailsActivity" />
         <activity android:name=".fragment.FragmentNews$DetailsActivity" />
-        <activity android:name=".view.GMap" />
         <service android:name=".services.HttpService" />
         <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
