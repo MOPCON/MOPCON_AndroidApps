@@ -154,8 +154,6 @@ public class FragmentNews extends Fragment {
       title.setText(news.title);
       TextView content = (TextView) view.findViewById(R.id.news_content);
       content.setText(news.content);
-      TextView publisher = (TextView) view.findViewById(R.id.news_publisher);
-      publisher.setText(news.publisher);
       return view;
     }
   }
