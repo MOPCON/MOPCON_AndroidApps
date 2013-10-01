@@ -1,6 +1,8 @@
 package org.mopcon.view;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -72,7 +74,9 @@ public class ListAdapter_Session extends ArrayAdapter<Session>{
     TextView textTag = new TextView(this.getContext());
     textTag.setText(str);
     textTag.setClickable(true);
-    textTag.setBackgroundColor(0xff858c94);
+    textTag.setBackgroundColor(0xffb1b2b2);
+
+
     textTag.setVisibility(View.VISIBLE);
     textTag.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
     textTag.setTextSize(TypedValue.COMPLEX_UNIT_SP,22);
