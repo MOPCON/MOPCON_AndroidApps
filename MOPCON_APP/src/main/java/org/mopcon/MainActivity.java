@@ -44,6 +44,7 @@ public class MainActivity extends SherlockFragmentActivity {
       super.handleMessage(msg);
       switch(msg.what){
         case TAB_UI_INIT:
+          tabHost.clearAllTabs();
           tabManager.addTab(tabHost.newTabSpec("Tab1").setIndicator("",getResources().getDrawable(R.drawable.tab_ic_even)),
               FragmentSessionPager.class,null);
           tabManager.addTab(tabHost.newTabSpec("Tab2").setIndicator("",getResources().getDrawable(R.drawable.tab_ic_news)),
@@ -61,6 +62,9 @@ public class MainActivity extends SherlockFragmentActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    Intent intent = new Intent(this,HttpService.class);
+    bindService(intent, conn, Context.BIND_AUTO_CREATE);
+
     tabHost = (TabHost) findViewById(android.R.id.tabhost);
     tabHost.setup();
 
@@ -72,13 +76,10 @@ public class MainActivity extends SherlockFragmentActivity {
   @Override
   protected void onResume() {
     super.onResume();
-    Intent intent = new Intent(this,HttpService.class);
-    bindService(intent, conn, Context.BIND_AUTO_CREATE);
   }
 
   @Override
   protected void onPause() {
-    unbindService(conn);
     super.onPause();
   }
 
@@ -90,6 +91,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
   @Override
   protected void onDestroy() {
+    unbindService(conn);
     super.onDestroy();
   }
 
@@ -101,7 +103,7 @@ public class MainActivity extends SherlockFragmentActivity {
       mService.updateNews();
       hashMapSession = mService.getSession();
       hashMapNews = mService.getNews();
-      if(hashMapSession != null){
+      if(hashMapSession != null && hashMapNews != null){
         Message msg = new Message();
         msg.what = TAB_UI_INIT;
         handler.sendMessage(msg);
