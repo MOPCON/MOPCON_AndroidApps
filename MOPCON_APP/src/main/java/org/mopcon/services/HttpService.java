@@ -174,13 +174,6 @@ public class HttpService extends Service implements ServiceImp{
     Toast.makeText(this,"Service : onUnbind",Toast.LENGTH_LONG).show();
     return super.onUnbind(intent);
   }
-
-  @Override
-  public int onStartCommand(Intent intent, int flags, int startId) {
-    Toast.makeText(this,"Service : onStartCommand",Toast.LENGTH_LONG).show();
-    return super.onStartCommand(intent, flags, startId);
-  }
-
   private boolean updateAll(){
     int i = 0;
     if(!updateNews())

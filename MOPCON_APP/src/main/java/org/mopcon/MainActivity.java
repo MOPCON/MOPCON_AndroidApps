@@ -61,16 +61,25 @@ public class MainActivity extends SherlockFragmentActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    Intent intent = new Intent(this,HttpService.class);
-    startService(intent);
-    bindService(intent, conn, Context.BIND_AUTO_CREATE);
-
     tabHost = (TabHost) findViewById(android.R.id.tabhost);
     tabHost.setup();
 
     tabManager = new TabManager(this,tabHost,R.id.realtabcontent);
     if(savedInstanceState != null)
       tabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    Intent intent = new Intent(this,HttpService.class);
+    bindService(intent, conn, Context.BIND_AUTO_CREATE);
+  }
+
+  @Override
+  protected void onPause() {
+    unbindService(conn);
+    super.onPause();
   }
 
   @Override
@@ -81,7 +90,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
   @Override
   protected void onDestroy() {
-    unbindService(conn);
     super.onDestroy();
   }
 

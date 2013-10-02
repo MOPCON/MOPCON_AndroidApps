@@ -16,13 +16,13 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/title" android:layout_gravity="left|top" android:textSize="18sp"
                     android:padding="8dp"
-                    android:textColor="?android:attr/textColorPrimary"/>
+                    android:textColor="?android:attr/textColorPrimary" android:singleLine="true"/>
             <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/text" android:layout_gravity="left|bottom" android:textSize="14sp"
                     android:layout_marginLeft="8dp" android:padding="4dp"
-                    android:textColor="?android:attr/textColorSecondary"/>
+                    android:textColor="?android:attr/textColorSecondary" android:singleLine="true"/>
         </LinearLayout>
     </LinearLayout>
 </org.mopcon.view.CheckableFrameLayout>
