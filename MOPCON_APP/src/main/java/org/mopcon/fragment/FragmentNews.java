@@ -17,11 +17,7 @@ import android.widget.TextView;
 import org.mopcon.MainActivity;
 import org.mopcon.R;
 import org.mopcon.model.News;
-import org.mopcon.model.Session;
 import org.mopcon.view.ListAdapter_News;
-import org.mopcon.view.ListAdapter_Session;
-
-import java.util.ArrayList;
 
 /**
  * Created by chuck on 13/9/26.

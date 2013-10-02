@@ -27,7 +27,6 @@ public class FragmentGMap extends Fragment implements LocationListener
 {
   static final LatLng STU = new LatLng(22.763321,120.376292);
   private LatLng self_location;
-//  private SupportMapFragment
   private GoogleMap map;
   private LocationManager locationManager;
   private boolean getService = false;
