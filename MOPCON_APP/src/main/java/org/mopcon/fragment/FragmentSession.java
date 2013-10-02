@@ -18,21 +18,17 @@ import org.mopcon.R;
 import org.mopcon.model.Session;
 import org.mopcon.view.ListAdapter_Session;
 
-import java.util.ArrayList;
-
 /**
  * Created by chuck on 13/9/26.
  */
 public class FragmentSession extends Fragment {
-  private static ArrayList<Integer> keyList;
   private ListView listView;
   private static ListAdapter_Session listAdapterSession = null;
   private boolean mDualPane;
   private int mCurCheckPosition = 1;
   private int nowFragmentNum;
 
-  public static Fragment newInstance(int position,ArrayList<Integer> keyList){
-    FragmentSession.keyList = keyList;
+  public static Fragment newInstance(int position){
     FragmentSession fragmentSession = new FragmentSession();
     Bundle bundle = new Bundle();
     bundle.putInt("num",position);
@@ -48,33 +44,21 @@ public class FragmentSession extends Fragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.list_fragment,container,false);
-  }
-
-  @Override
-  public void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putInt("curChoice", mCurCheckPosition);
-  }
-
-  @Override
-  public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-    listView = (ListView) getActivity().findViewById(R.id.titles);
+    View view = inflater.inflate(R.layout.list_fragment,container,false);
+    listView = (ListView) view.findViewById(R.id.titles);
     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         showDetails(i);
-        System.out.println("Item index = " + i);
       }
     });
 
     listAdapterSession = new ListAdapter_Session(getActivity(),
-        R.layout.list_item_session_row, keyList);
+        R.layout.list_item_session_row, FragmentSessionPager.keyList[nowFragmentNum]);
 
     listView.setAdapter(listAdapterSession);
 
-    View detailsFrame = getActivity().findViewById(R.id.details);
+    View detailsFrame = view.findViewById(R.id.details);
     mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
     if (savedInstanceState != null) {
@@ -86,8 +70,14 @@ public class FragmentSession extends Fragment {
       listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
       showDetails(mCurCheckPosition);
     }
+    return view;
   }
 
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putInt("curChoice", mCurCheckPosition);
+  }
 
   void showDetails(int index) {
     mCurCheckPosition = index;

@@ -30,7 +30,7 @@ public class FragmentSessionPager extends Fragment{
   private TextView textView;
 
   private static final String[] sessionData = {"2013年10月26日 星期六","2013年10月27日 星期日"};
-  private static ArrayList<Integer>[] keyList ;
+  public static ArrayList<Integer>[] keyList ;
   private static final int fragmentPagerNum = 2;
 
   @Override
@@ -101,7 +101,7 @@ public class FragmentSessionPager extends Fragment{
 
     @Override
     public Fragment getItem(int i) {
-      return FragmentSession.newInstance(i,FragmentSessionPager.keyList[i]);
+      return FragmentSession.newInstance(i);
     }
 
     @Override
