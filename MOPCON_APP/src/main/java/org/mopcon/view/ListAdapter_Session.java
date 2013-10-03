@@ -10,11 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.internal.w;
+
 import org.mopcon.fragment.FragmentActivity;
 import org.mopcon.R;
 import org.mopcon.model.Session;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -51,15 +54,22 @@ public class ListAdapter_Session extends ArrayAdapter<Session>{
     this.keyList = keyList;
     hashMap = FragmentActivity.hashMapSession;
     viewList = new ArrayList<View>();
-    int day = keyList.get(0) / 100;
-    for(int j = 0;j < section[day - 1].length;j++){
-      viewList.add(getClassTag(section[day - 1][j]));
+    char[] tmp = keyList.get(0).toString().toCharArray();
+    for(int j = 0;j < section[Character.getNumericValue(tmp[0]) - 1].length;j++){
+      viewList.add(getClassTag(section[Character.getNumericValue(tmp[0]) - 1][j]));
+      ArrayList<Integer> sortArray = new ArrayList<Integer>();
       for(int k = 0;k < keyList.size() ;k++){
-        int index = keyList.get(k).intValue() % 100;
-        if(j == (index / 10)){
-          viewList.add(getView(hashMap.get(keyList.get(k))));
+        char[] tmp1 = keyList.get(k).toString().toCharArray();
+        if(j == Character.getNumericValue(tmp1[1])){
+          sortArray.add(keyList.get(k));
         }
       }
+      Collections.sort(sortArray);
+      for(Integer tmp3:sortArray){
+        viewList.add(getView(hashMap.get(tmp3)));
+      }
+      sortArray.clear();
+      sortArray = null;
     }
   }
 

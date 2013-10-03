@@ -43,10 +43,10 @@ public class FragmentSessionPager extends Fragment{
     Object[] obj = index.toArray();
     for (int i = 0;i < obj.length;i++){
       Integer integer = (Integer)obj[i];
-      int tmp = integer.intValue();
-      if((tmp / 100) == 1){
+      char tmp = integer.toString().toCharArray()[0];
+      if(tmp == '1'){
         keyList[0].add((Integer)obj[i]);
-      }else if((tmp / 100) == 2){
+      }else if(tmp == '2'){
         keyList[1].add((Integer)obj[i]);
       }
     }

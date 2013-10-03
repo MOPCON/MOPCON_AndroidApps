@@ -118,13 +118,20 @@ public class HttpService extends Service implements ServiceImp{
         JSONObject jObject = jsonArray.getJSONObject(i);
         Session session = new Session();
         session.id = jObject.getInt(Session.Key.id);
-        session.name = jObject.getString(Session.Key.name);
-        session.content = jObject.getString(Session.Key.content);
-        session.keyword = jObject.getString(Session.Key.keyword);
-        session.speaker = jObject.getString(Session.Key.speaker);
-        session.speaker_bio = jObject.getString(Session.Key.speaker_bio);
-        session.loc = jObject.getString(Session.Key.loc);
-        session.catalog = jObject.getString(Session.Key.catalog);
+        session.name = jObject.isNull(Session.Key.name) ? "" :
+            jObject.getString(Session.Key.name);
+        session.content = jObject.isNull(Session.Key.content) ? "" :
+            jObject.getString(Session.Key.content) ;
+        session.keyword = jObject.isNull(Session.Key.keyword) ? "" :
+            jObject.getString(Session.Key.keyword);
+        session.speaker = jObject.isNull(Session.Key.speaker) ? "" :
+            jObject.getString(Session.Key.speaker);
+        session.speaker_bio = jObject.isNull(Session.Key.speaker_bio) ? "":
+            jObject.getString(Session.Key.speaker_bio);
+        session.loc = jObject.isNull(Session.Key.loc) ? "" :
+            jObject.getString(Session.Key.loc);
+        session.catalog = jObject.isNull(Session.Key.catalog) ? "":
+            jObject.getString(Session.Key.catalog);
         session.start_time = jObject.getLong(Session.Key.start_time);
         session.end_time = jObject.getLong(Session.Key.end_time);
         map.put(session.id,session);
