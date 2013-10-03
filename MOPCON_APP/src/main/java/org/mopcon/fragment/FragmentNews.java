@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.mopcon.MainActivity;
 import org.mopcon.R;
 import org.mopcon.model.News;
 import org.mopcon.view.ListAdapter_News;
@@ -56,7 +54,7 @@ public class FragmentNews extends Fragment {
     });
 
     listAdapterNews = new ListAdapter_News(getActivity(),
-        R.layout.list_item_news_row, MainActivity.hashMapNews);
+        R.layout.list_item_news_row, FragmentActivity.hashMapNews);
 
     listView.setAdapter(listAdapterNews);
 
@@ -96,7 +94,7 @@ public class FragmentNews extends Fragment {
     }
   }
 
-  public static class DetailsActivity extends FragmentActivity {
+  public static class DetailsActivity extends android.support.v4.app.FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -10,10 +10,11 @@ import java.util.HashMap;
  * Created by chuck on 13/8/29.
  */
 public interface ServiceImp {
-    public boolean updateNews();
-    public boolean updateSession();
-    public HashMap<Integer, News> getNews();
-    public HashMap<Integer, Session> getSession();
-    public News getNews(int id);
-    public Session getSession(int id);
+  public boolean updateNews();
+  public boolean updateSession();
+  public boolean isExists();
+  public HashMap<Integer, News> getNews();
+  public HashMap<Integer, Session> getSession();
+  public News getNews(int id);
+  public Session getSession(int id);
 }

@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import org.mopcon.MainActivity;
 import org.mopcon.R;
 import org.mopcon.model.Session;
 
@@ -39,7 +38,7 @@ public class FragmentSessionPager extends Fragment{
     keyList = new ArrayList[2];
     for(int j = 0;j < keyList.length;j++)
       keyList[j] = new ArrayList<Integer>();
-    HashMap<Integer,Session> hashMap = MainActivity.hashMapSession;
+    HashMap<Integer,Session> hashMap = FragmentActivity.hashMapSession;
     Set<Integer> index = hashMap.keySet();
     Object[] obj = index.toArray();
     for (int i = 0;i < obj.length;i++){

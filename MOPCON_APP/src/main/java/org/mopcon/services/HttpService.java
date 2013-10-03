@@ -3,6 +3,7 @@ package org.mopcon.services;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.Binder;
 import android.os.StrictMode;
@@ -20,6 +21,7 @@ import org.mopcon.model.News;
 import org.mopcon.model.Session;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -63,6 +65,14 @@ public class HttpService extends Service implements ServiceImp{
     writeJSONFile(SESSION + JSON,session);
     sessionMap = getSession();
     return true;
+  }
+
+  @Override
+  public boolean isExists() {
+    if(getFileStreamPath(NEWS + JSON).exists() &&
+        getFileStreamPath(SESSION + JSON).exists())
+      return true;
+    return false;
   }
 
   @Override
@@ -153,27 +163,24 @@ public class HttpService extends Service implements ServiceImp{
       StrictMode.setThreadPolicy(policy);
     }
     super.onCreate();
-    Toast.makeText(this,"Service : onCreate",Toast.LENGTH_LONG).show();
-    HashMap<Intent,String> map;
   }
 
   @Override
   public void onDestroy() {
+    Toast.makeText(this,"Stop service",Toast.LENGTH_LONG);
     super.onDestroy();
-    Toast.makeText(this,"Service : onDestroy",Toast.LENGTH_LONG).show();
   }
 
   @Override
   public void onRebind(Intent intent) {
     super.onRebind(intent);
-    Toast.makeText(this,"Service : onRebind",Toast.LENGTH_LONG).show();
   }
 
   @Override
   public boolean onUnbind(Intent intent) {
-    Toast.makeText(this,"Service : onUnbind",Toast.LENGTH_LONG).show();
     return super.onUnbind(intent);
   }
+
   private boolean updateAll(){
     int i = 0;
     if(!updateNews())
@@ -219,6 +226,8 @@ public class HttpService extends Service implements ServiceImp{
 
     return null;
   }
+
+
 
   private boolean writeJSONFile(String fileName,String json) {
     FileOutputStream fos = null;

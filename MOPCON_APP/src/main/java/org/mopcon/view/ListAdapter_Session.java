@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.mopcon.MainActivity;
+import org.mopcon.fragment.FragmentActivity;
 import org.mopcon.R;
 import org.mopcon.model.Session;
 
@@ -49,7 +49,7 @@ public class ListAdapter_Session extends ArrayAdapter<Session>{
     super(context,textViewResourceId);
     inflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     this.keyList = keyList;
-    hashMap = MainActivity.hashMapSession;
+    hashMap = FragmentActivity.hashMapSession;
     viewList = new ArrayList<View>();
     int day = keyList.get(0) / 100;
     for(int j = 0;j < section[day - 1].length;j++){
