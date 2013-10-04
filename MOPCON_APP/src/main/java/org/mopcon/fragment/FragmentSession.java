@@ -23,7 +23,7 @@ import org.mopcon.view.ListAdapter_Session;
  */
 public class FragmentSession extends Fragment {
   private ListView listView;
-  private static ListAdapter_Session listAdapterSession = null;
+  private static ListAdapter_Session[] listAdapterSession = new ListAdapter_Session[2];
   private boolean mDualPane;
   private int mCurCheckPosition = 1;
   private int nowFragmentNum;
@@ -49,14 +49,14 @@ public class FragmentSession extends Fragment {
     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        showDetails(i);
+        showDetails(i,nowFragmentNum);
       }
     });
 
-    listAdapterSession = new ListAdapter_Session(getActivity(),
+    listAdapterSession[nowFragmentNum] = new ListAdapter_Session(getActivity(),
         R.layout.list_item_session_row, FragmentSessionPager.keyList[nowFragmentNum]);
 
-    listView.setAdapter(listAdapterSession);
+    listView.setAdapter(listAdapterSession[nowFragmentNum]);
 
     View detailsFrame = view.findViewById(R.id.details);
     mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
@@ -66,9 +66,8 @@ public class FragmentSession extends Fragment {
     }
 
     if (mDualPane) {
-      System.out.println("mDualPane = true");
       listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-      showDetails(mCurCheckPosition);
+      showDetails(mCurCheckPosition,nowFragmentNum);
     }
     return view;
   }
@@ -79,14 +78,14 @@ public class FragmentSession extends Fragment {
     outState.putInt("curChoice", mCurCheckPosition);
   }
 
-  void showDetails(int index) {
+  void showDetails(int index,int day) {
     mCurCheckPosition = index;
     if (mDualPane) {
       listView.setItemChecked(index, true);
       DetailsFragment details = (DetailsFragment)
           getFragmentManager().findFragmentById(R.id.details);
       if (details == null || details.getShownIndex() != index) {
-        details = DetailsFragment.newInstance(index);
+        details = DetailsFragment.newInstance(index,day);
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.details, details);
@@ -97,6 +96,7 @@ public class FragmentSession extends Fragment {
       Intent intent = new Intent();
       intent.setClass(getActivity(), DetailsActivity.class);
       intent.putExtra("index", index);
+      intent.putExtra("day", day);
       startActivity(intent);
     }
   }
@@ -125,11 +125,12 @@ public class FragmentSession extends Fragment {
   }
 
   public static class DetailsFragment extends Fragment {
-    public static DetailsFragment newInstance(int index) {
+    public static DetailsFragment newInstance(int index,int day) {
       DetailsFragment f = new DetailsFragment();
 
       Bundle args = new Bundle();
       args.putInt("index", index);
+      args.putInt("day",day);
       f.setArguments(args);
 
       return f;
@@ -137,6 +138,10 @@ public class FragmentSession extends Fragment {
 
     public int getShownIndex() {
       return getArguments().getInt("index", 0);
+    }
+
+    public int getShownDay(){
+      return getArguments().getInt("day",0);
     }
 
     @Override
@@ -150,7 +155,7 @@ public class FragmentSession extends Fragment {
       int padding = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
           4, getActivity().getResources().getDisplayMetrics());
       view.setPadding(padding,padding,padding,padding);
-      Session session = listAdapterSession.getSession(getShownIndex());
+      Session session = listAdapterSession[getShownDay()].getSession(getShownIndex());
       TextView name = (TextView) view.findViewById(R.id.session_name);
       name.setText(session.name);
       TextView speaker = (TextView) view.findViewById(R.id.session_speaker);
