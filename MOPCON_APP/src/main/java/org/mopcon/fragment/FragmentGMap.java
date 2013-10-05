@@ -9,10 +9,10 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,7 +25,6 @@ import org.mopcon.R;
 
 public class FragmentGMap extends Fragment implements LocationListener
 {
-  static final LatLng STU = new LatLng(22.763321,120.376292);
   private LatLng self_location;
   private GoogleMap map;
   private LocationManager locationManager;
@@ -39,20 +38,22 @@ public class FragmentGMap extends Fragment implements LocationListener
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.map_fragment,container,false);
-    locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+    locationManager = (LocationManager)getActivity()
+        .getSystemService(Context.LOCATION_SERVICE);
 
-    setTargetLocation(STU,"樹德科技大學","Mopcon APP!!");
+    setTargetLocation(new LatLng(22.626405,120.285787),
+        "高雄國際會議中心 ICCK","MOPCON 2013");
 
 
 
-    if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)||locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+    if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
     {
       getService = true;
       locationServiceInital();
     }
     else
     {
-      Toast.makeText(getActivity(),"please turn on the location service", Toast.LENGTH_LONG).show();
       startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
     }
     return view;
@@ -63,7 +64,8 @@ public class FragmentGMap extends Fragment implements LocationListener
 
   private void locationServiceInital()
   {
-    lms = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
+    lms = (LocationManager) getActivity()
+        .getSystemService(getActivity().LOCATION_SERVICE);
     Criteria criteria = new Criteria();
     bestProvider = lms.getBestProvider(criteria, true);
     Location location = lms.getLastKnownLocation(bestProvider);
@@ -76,12 +78,7 @@ public class FragmentGMap extends Fragment implements LocationListener
     {
       double latitude = location.getLatitude();
       double longitude = location.getLongitude();
-
       self_location = new LatLng(latitude,longitude);
-    }
-    else
-    {
-      Toast.makeText(getActivity(),"out of service", Toast.LENGTH_LONG).show();
     }
   }
 
@@ -111,11 +108,12 @@ public class FragmentGMap extends Fragment implements LocationListener
 
   public void setTargetLocation(LatLng target, String title, String context)
   {
-    map =  ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.GMap)).getMap();
-    Marker nkut = map.addMarker(new MarkerOptions().position(target).title(title).snippet(context));
+    map = ((SupportMapFragment) getFragmentManager()
+        .findFragmentById(R.id.GMap)).getMap();
+    map.addMarker(
+        new MarkerOptions().position(target).title(title).snippet(context));
 
-    // Move the camera instantly to Target  with a zoom of 16.
-    map.moveCamera(CameraUpdateFactory.newLatLngZoom(target, 12));
+    map.moveCamera(CameraUpdateFactory.newLatLngZoom(target, 14));
   }
 
   @Override
@@ -139,6 +137,20 @@ public class FragmentGMap extends Fragment implements LocationListener
   @Override
   public void onStop() {
     super.onStop();
+  }
+
+  @Override
+  public void onDestroyView() {
+    try{
+      SupportMapFragment fragment = ((SupportMapFragment) getFragmentManager()
+          .findFragmentById(R.id.GMap));
+      FragmentTransaction ft = getActivity().getSupportFragmentManager()
+          .beginTransaction();
+      ft.remove(fragment);
+      ft.commit();
+    }catch(Exception e){
+    }
+    super.onDestroyView();
   }
 
   @Override
