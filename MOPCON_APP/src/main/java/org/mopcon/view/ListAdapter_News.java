@@ -1,6 +1,7 @@
 package org.mopcon.view;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,10 @@ import android.widget.TextView;
 import org.mopcon.R;
 import org.mopcon.model.News;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -20,7 +25,6 @@ public class ListAdapter_News extends ArrayAdapter<News>{
   private HashMap<Integer,News> hashMap;
   private Object[] objects;
   private LayoutInflater inflator;
-
   public ListAdapter_News(Context context, int textViewResourceId) {
     super(context, textViewResourceId);
   }
@@ -48,7 +52,14 @@ public class ListAdapter_News extends ArrayAdapter<News>{
     TextView title = (TextView) convertView.findViewById(R.id.title);
     title.setText(news.title);
     TextView text = (TextView) convertView.findViewById(R.id.text);
-    text.setText(news.publisher);
+    text.setText(longToDateTime(news.pub_time));
     return convertView;
+  }
+
+  private String longToDateTime(long l) {
+    DateFormat dateFormat =
+        new SimpleDateFormat("yyyy/MM/dd HH:mm");
+      Date date = new Date(l * 1000);
+    return dateFormat.format(date);
   }
 }
