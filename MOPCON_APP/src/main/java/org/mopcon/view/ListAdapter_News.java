@@ -1,7 +1,6 @@
 package org.mopcon.view;
 
 import android.content.Context;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +11,17 @@ import org.mopcon.R;
 import org.mopcon.model.News;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * Created by chuck on 13/9/29.
  */
 public class ListAdapter_News extends ArrayAdapter<News>{
 
-  private HashMap<Integer,News> hashMap;
+  private TreeMap<Long,News> sortMap;
   private Object[] objects;
   private LayoutInflater inflator;
   public ListAdapter_News(Context context, int textViewResourceId) {
@@ -32,17 +31,22 @@ public class ListAdapter_News extends ArrayAdapter<News>{
   public ListAdapter_News(Context context, int textViewResourceId ,HashMap<Integer,News> map){
     this(context, textViewResourceId);
     inflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    hashMap = map;
+    sortMap = new TreeMap<Long, News>();
     objects = map.keySet().toArray();
+    for(Object key:objects){
+      News news = map.get(key);
+      sortMap.put(news.pub_time,news);
+    }
+    objects = sortMap.descendingKeySet().toArray();
   }
 
   public News getNews(int position){
-    return hashMap.get(objects[position]);
+    return sortMap.get(objects[position]);
   }
 
   @Override
   public int getCount() {
-    return hashMap.size();
+    return sortMap.size();
   }
 
   @Override
