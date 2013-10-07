@@ -8,7 +8,7 @@ public class News {
         public static final String id = "id";
         public static final String title = "title";
         public static final String content = "content";
-        public static final String publisher = "publisher";
+        public static final String publisher = "publishe";
         public static final String pub_time = "pub_time";
     }
     public int id;

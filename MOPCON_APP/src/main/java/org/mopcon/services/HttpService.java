@@ -84,7 +84,7 @@ public class HttpService extends Service implements ServiceImp{
     try {
       System.out.println("News JSON = " + str);
       jsonObject = new JSONObject(str);
-      newsLastUpdate = jsonObject.getLong("lastu_pdate");
+      newsLastUpdate = jsonObject.getLong("last_update");
       jsonArray = jsonObject.getJSONArray("news");
       for(int i = 0 ;i < jsonArray.length();i++){
         JSONObject jObject = jsonArray.getJSONObject(i);
