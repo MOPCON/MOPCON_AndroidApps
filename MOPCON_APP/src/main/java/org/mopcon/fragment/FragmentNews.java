@@ -103,7 +103,9 @@ public class FragmentNews extends Fragment {
 
       if((getResources().getConfiguration().screenLayout &
           Configuration.SCREENLAYOUT_SIZE_MASK) >=
-          Configuration.SCREENLAYOUT_SIZE_LARGE){
+          Configuration.SCREENLAYOUT_SIZE_LARGE &&
+          getResources().getConfiguration().orientation ==
+          Configuration.ORIENTATION_LANDSCAPE){
         finish();
         return;
       }
