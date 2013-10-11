@@ -83,16 +83,16 @@ public class HttpService extends Service implements ServiceImp{
     try {
       System.out.println("News JSON = " + str);
       jsonObject = new JSONObject(str);
-      newsLastUpdate = jsonObject.getLong("last_update");
-      jsonArray = jsonObject.getJSONArray("news");
+      newsLastUpdate = jsonObject.optLong("last_update");
+      jsonArray = jsonObject.optJSONArray("news");
       for(int i = 0 ;i < jsonArray.length();i++){
         JSONObject jObject = jsonArray.getJSONObject(i);
         News news = new News();
         news.id = jObject.getInt(News.Key.id);
-        news.title = jObject.getString(News.Key.title);
-        news.content = jObject.getString(News.Key.content);
-        news.publisher = jObject.getString(News.Key.publisher);
-        news.pub_time = jObject.getLong(News.Key.pub_time);
+        news.title = jObject.optString(News.Key.title);
+        news.content = jObject.optString(News.Key.content);
+        news.publisher = jObject.optString(News.Key.publisher);
+        news.pub_time = jObject.optLong(News.Key.pub_time);
         map.put(news.id,news);
       }
       return map;
@@ -111,28 +111,28 @@ public class HttpService extends Service implements ServiceImp{
     try {
       System.out.println("Session JSON = " + str);
       jsonObject = new JSONObject(str);
-      sessionLastUpdate = jsonObject.getLong("last_update");
-      jsonArray = jsonObject.getJSONArray("sessions");
+      sessionLastUpdate = jsonObject.optLong("last_update");
+      jsonArray = jsonObject.optJSONArray("sessions");
       for(int i = 0;i < jsonArray.length();i++){
         JSONObject jObject = jsonArray.getJSONObject(i);
         Session session = new Session();
         session.id = jObject.getInt(Session.Key.id);
         session.name = jObject.isNull(Session.Key.name) ? "" :
-            jObject.getString(Session.Key.name);
+            jObject.optString(Session.Key.name);
         session.content = jObject.isNull(Session.Key.content) ? "" :
-            jObject.getString(Session.Key.content) ;
+            jObject.optString(Session.Key.content) ;
         session.keyword = jObject.isNull(Session.Key.keyword) ? "" :
-            jObject.getString(Session.Key.keyword);
+            jObject.optString(Session.Key.keyword);
         session.speaker = jObject.isNull(Session.Key.speaker) ? "" :
-            jObject.getString(Session.Key.speaker);
+            jObject.optString(Session.Key.speaker);
         session.speaker_bio = jObject.isNull(Session.Key.speaker_bio) ? "":
-            jObject.getString(Session.Key.speaker_bio);
+            jObject.optString(Session.Key.speaker_bio);
         session.loc = jObject.isNull(Session.Key.loc) ? "" :
-            jObject.getString(Session.Key.loc);
+            jObject.optString(Session.Key.loc);
         session.catalog = jObject.isNull(Session.Key.catalog) ? "":
-            jObject.getString(Session.Key.catalog);
-        session.start_time = jObject.getLong(Session.Key.start_time);
-        session.end_time = jObject.getLong(Session.Key.end_time);
+            jObject.optString(Session.Key.catalog);
+        session.start_time = jObject.optLong(Session.Key.start_time);
+        session.end_time = jObject.optLong(Session.Key.end_time);
         map.put(session.id,session);
       }
       return map;

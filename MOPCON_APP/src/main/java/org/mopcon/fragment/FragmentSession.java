@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.text.util.Linkify;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -162,10 +163,13 @@ public class FragmentSession extends Fragment {
       name.setText(session.name);
       TextView speaker = (TextView) view.findViewById(R.id.session_speaker);
       speaker.setText(session.speaker);
+      Linkify.addLinks(speaker,Linkify.ALL);
       TextView content = (TextView) view.findViewById(R.id.session_content);
       content.setText(session.content);
+      Linkify.addLinks(content,Linkify.ALL);
       TextView speaker_bio = (TextView) view.findViewById(R.id.session_speaker_bio);
       speaker_bio.setText(session.speaker_bio);
+      Linkify.addLinks(speaker_bio,Linkify.ALL);
       return view;
     }
   }

@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.util.Linkify;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -150,6 +151,7 @@ public class FragmentNews extends Fragment {
       title.setText(news.title);
       TextView content = (TextView) view.findViewById(R.id.news_content);
       content.setText(news.content);
+      Linkify.addLinks(content,Linkify.ALL);
       return view;
     }
   }
